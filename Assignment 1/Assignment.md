@@ -53,7 +53,7 @@ Hello, world!
 ```
 
 ## 6. Bitte machen Sie sich mit Datentypen und Kontrollflow in Python vertraut
-- Nützliche Ressourcen für eine Einführung in die Frundlagen von Python:
+- Nützliche Ressourcen für eine Einführung in die Grundlagen von Python:
   - https://www.codecademy.com/learn/learn-python-3
   - https://learn.datacamp.com/courses/intro-to-python-for-data-science
   - http://greenteapress.com/thinkpython/thinkpython.pdf
