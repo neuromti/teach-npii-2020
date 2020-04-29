@@ -182,12 +182,41 @@ Nach Installation von MNE laden wir einen EEG Datensatz im BrainVision Core Data
 
 Installieren Sie zuerst die `mne` Toolbox in ihrem Python. Unter Anaconda geht das durch Öffnen des Anaconda-Prompts. https://datatofish.com/how-to-install-python-package-in-anaconda/
 
-Je nachdem, wie sie die Pfaderkennung organisiert haben, kann auch ein normales Terminalfenster ausreichen. Dort führen Sie dann `pip install mne` aus.
+Je nachdem, wie sie die Pfaderkennung organisiert haben, kann auch ein normales Terminalfenster ausreichen. Dort führen Sie dann `pip install mne` aus. Wenn Sie das nächste Mal Spyder starten, sollte `import mne` funktionieren.
 
-Als nächstes laden wir die Daten von 
+Als nächstes laden wir die Daten. Diese können Sie entweder manuell herunterladen und in einen Ordern relativ zu Assignment2 kopieren, also in `root/daten` während dieses Skript in `root/Assignment2/fileio.py` ist; sie können die Funktion load_data anpassen, damit Sie auf ihre Verzeichnisstruktur passt; oder sie pullen gleich das ganze repo mit `git pull`.
 
-Wenn Sie das nächste Mal Spyder starten, sollte `import mne` funktionieren.
+Die Folge der heterogenen binären Formate ist leider auch eine große Heterogenität in den Toolboxen zum Laden, und was deren Funktionen zurückgegen. Das klare Interface mittels `open(fname, mode)` findet sich dann nur noch selten. Stattdessen muss man auch Eigenheiten und Implementationsdetails Rücksicht nehmen. Es bleibt aufwändig, Daten so zu organisieren, dass diese zu Weiterverarbeitungspipelines passen.
 
 
 """
 import mne
+from pathlib import Path
+
+
+def load_data():
+    fld = Path(__file__).parent.parent / "daten"
+
+    # Import the BrainVision data into an MNE Raw object
+    raw = mne.io.read_raw_brainvision(fld / "00_rest_pre.vhdr", preload=True)
+
+    # Read in the event information as MNE annotations
+    annot = mne.read_annotations(fld / "00_rest_pre.vmrk")
+
+    # Add the annotations to our raw object so we can use them with the data
+    raw.set_annotations(annot)
+
+    # Reconstruct the original events from our Raw object
+    events, event_ids = mne.events_from_annotations(raw)
+    event_labels = {v: k for k, v in event_ids.items()}
+    for event in events:
+        print("Sample {0:<10} with {1}".format(event[0], event_labels[event[-1]]))
+    data = raw.get_data()
+    channel_labels = raw.ch_names
+    print(channel_labels)
+    print(data.shape)
+
+    return raw
+
+
+raw = load_data()
