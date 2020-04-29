@@ -193,7 +193,7 @@ Wenn Sie das nächste Mal Spyder starten, sollte `import mne` funktionieren.
 import mne
 from pathlib import Path
 
-root = Path(__file__).parent / "BT"
+root = Path(__file__).parent
 
 # Import the BrainVision data into an MNE Raw object
 raw = mne.io.read_raw_brainvision(root / "00_rest_pre.vhdr", preload=True)
