@@ -59,15 +59,10 @@ fig.colorbar(im)
 Übung 2.4
 *********
 
-Beispiel mit echten Daten
+Beispiel mit echten Daten. Wir laden dazu erneut die Rohdaten aus Übung 1.9.
 
 """
-import numpy as np
-import json
+# raw = load_data()
+from mne.viz import plot_topomap
 
-rs = dict()
-with np.load("resting_state.npz") as f:
-    for key in f.keys():
-        rs[key] = f[key]
-with open("resting_state.json") as f:
-    rs.update(**json.loads(f.read()))
+plot_topomap()

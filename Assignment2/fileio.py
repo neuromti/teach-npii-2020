@@ -173,3 +173,21 @@ with open("test.npy", "r+b") as f:
 back = np.load("test.npy")
 print(arr)
 print(back)
+# %%
+"""
+Übung 1.9
+*********
+
+Nach Installation von MNE laden wir einen EEG Datensatz im BrainVision Core Data Format (.vhdr, .vmrk, .eeg)
+
+Installieren Sie zuerst die `mne` Toolbox in ihrem Python. Unter Anaconda geht das durch Öffnen des Anaconda-Prompts. https://datatofish.com/how-to-install-python-package-in-anaconda/
+
+Je nachdem, wie sie die Pfaderkennung organisiert haben, kann auch ein normales Terminalfenster ausreichen. Dort führen Sie dann `pip install mne` aus.
+
+Als nächstes laden wir die Daten von 
+
+Wenn Sie das nächste Mal Spyder starten, sollte `import mne` funktionieren.
+
+
+"""
+import mne
