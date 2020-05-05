@@ -152,10 +152,12 @@ wave2 = amplitude[1] * np.sin(freq_in_Hz[1] * x + phaseshift[1])
 wave3 = amplitude[2] * np.sin(freq_in_Hz[2] * x + phaseshift[2])
 
 mix = wave1+wave2+wave3
+
+fourierspectrum = fft(mix)
 #Ihre Lösung zu Aufgabe 1 hier
 
 
-fourierspectrum = fft(mix)
+
 powerspectrum = np.abs(fourierspectrum)[:int(len(fourierspectrum)/2)]**2 / len(fourierspectrum)
 frx = np.linspace(0, sfreq/2, num=int(len(fourierspectrum)/2))
 plt.figure()
