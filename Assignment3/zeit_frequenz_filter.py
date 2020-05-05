@@ -228,7 +228,7 @@ Aufgabe 1: Greifen Sie, wie oben, Kanal C3 heraus. Stellen Sie gefilterte und un
         im Vergleich bildlich dar. Plotten Sie gefilterte und ungefilterte Daten übereinander, jeweils
         im Zeit- und Frequenzraum.
 
-Aufgabe 2: Filtern Sie die Daten nochmals, diesmal mit der Funktion signal.filtfilt. Damit wir nächste Woche mit den
+Aufgabe 2: Filtern Sie die Daten nochmals, diesmal mit der Funktion signal.filtfilt anstelle von signal.lfilter (Erklärung unten). Damit wir nächste Woche mit den
         gefilterten Daten weiterarbeiten können, speichern Sie sie als binäre Datei (Funktion save aus numpy).
 """
 bandpass = signal.butter(4,(.3,35),btype = 'pass', fs = fs)
