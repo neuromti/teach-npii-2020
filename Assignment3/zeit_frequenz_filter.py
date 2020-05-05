@@ -1,7 +1,7 @@
 """
 Assignment 2
 ************
-Dieses Mal gibt es keinen Test zum Assignment. Stattdessen sollen Sie dieses Skript entsprechend den Aufgaben
+Sie sollen dieses Skript entsprechend den Aufgaben
 vervollständigen. Teilweise handelt es sich nicht um Programmier-, sondern um Freitextaufgaben. In diesem
 Fall schreiben Sie Ihre Antwort bitte als Kommentar an die entsprechende Stelle. Laden Sie Ihr vervollständigtes
 Skript anschließend per Ilias oder Github hoch.
