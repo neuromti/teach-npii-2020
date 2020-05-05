@@ -172,8 +172,8 @@ Aufgabe 3: Finden Sie die Indizes, bei denen sich die Maxima (Peaks) des Power-
         
 Wenn Sie die Peaks gefunden haben, werden zwei Figures erzeugt, die die 
 entsprechenden komplexen Werte aus dem Fourierspektrum auf zwei Weisen darstellt:
-links in kartesischer Darstellung, mit den realen Werten auf der x-, und den
-imaginären Werten auf der y-Achse, rechts in polarer Darstellung, wobei der
+die erste in kartesischer Darstellung, mit den realen Werten auf der x-, und den
+imaginären Werten auf der y-Achse, die zweite in polarer Darstellung, wobei der
 Winkel dem Winkel des komplexen Vektors zur realen Achse, die Entfernung vom 
 Mittelpunkt der Länge des Vektors entspricht. Standardmäßig wird der erste Wert blau, 
 der zweite  orange und der dritte grün dargestellt.
