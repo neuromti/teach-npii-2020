@@ -1,5 +1,5 @@
 """
-Assignment 2
+Assignment 3
 ************
 Sie sollen dieses Skript entsprechend den Aufgaben
 vervollständigen. Teilweise handelt es sich nicht um Programmier-, sondern um Freitextaufgaben. In diesem
