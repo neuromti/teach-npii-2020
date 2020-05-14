@@ -9,13 +9,45 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 import copy
 from os import path
-
+from pylab import figure, show
 import pickle
 with open('channel_info.p', 'rb') as pf:
     channel_info = pickle.load(pf)
     
 pos = channel_info['positions']
 labels = channel_info['labels']
+
+def multichannel_plot(t, datarray):    
+    fig = figure()
+    
+    yprops = dict(rotation=0,
+                  horizontalalignment='right',
+                  verticalalignment='center')
+    
+    axprops = dict(yticks=[])
+    nchans = np.shape(datarray)[1]
+    ht = .9/nchans
+    ypos = [0.7, 0.5, 0.3, 0.1]
+    ypos = np.linspace(1-ht, .1, nchans)
+    
+    for ch in range(nchans):
+        ax1 =fig.add_axes([0.1, ypos[ch], 0.8, ht], **axprops)
+        ax1.plot(t, datarray[:,ch])
+        ax1.set_ylabel('comp'+str(ch), **yprops)
+        
+        axprops['sharex'] = ax1
+        axprops['sharey'] = ax1
+    ax1.set_xlabel('time [s]')
+    show()
+
+def find_muscular_components(comps_epoch):
+    dmy = np.zeros(np.shape(comps_epoch)[1])
+    timewin = np.arange(488,530)
+    for c in range(len(dmy)):
+        excessratio = np.max(np.abs(comps_epoch[timewin,c]))/np.mean(np.abs(comps_epoch[:,c]))
+        if excessratio >= 8:
+            dmy[c] = 1
+    return np.where(dmy)[0]
 
 
 #function copied from mne.viz.topomap
