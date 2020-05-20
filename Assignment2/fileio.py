@@ -40,7 +40,8 @@ print(inhalt)
 Übung 1.3
 *********
 
-Der Zeiger in der Datei kann mit f.seek gesetzt werden, z.B. 6 bytes nach dem Anfang der Datei mit f.seek(6,0). Was passiert, wenn man die Datei nicht von Anfang an liest?
+Der Zeiger in der Datei kann mit f.seek gesetzt werden, z.B. 6 bytes nach dem Anfang der Datei mit f.seek(6,0).
+Was passiert, wenn man die Datei nicht von Anfang an liest?
 
 Die aktuelle Position des Zeigers kann man mit print(f.tell()) erfragen.
 
@@ -50,7 +51,8 @@ Wo befindet sich der Zeiger, wenn die Datei vollständig mit f.read gelesen wurd
 fname = "test.txt"
 with open(file=fname, mode="r") as f:
     f.seek(6, 0)
-    inhalt = f.read()
+    inhalt = f.read(1)
+    print(f.tell())
 print(inhalt)
 
 
@@ -61,16 +63,19 @@ print(inhalt)
 
 Diese Zelle offnet eine Datei im Schreib und Lese -Modus ("r+") und überschreibt Text.
 
-Erzeuge die Datei neu, z.B. mit Übung 1.1. Überschreibe dann aber nicht die ersten 5 Zeichen, sondern die letzen 5 mit 'X'
+Erzeuge die Datei neu, z.B. mit Übung 1.1. 
+Überschreibe dann aber nicht die ersten 5 Zeichen, sondern die letzen 5 mit 'X'
 
 """
 fname = "test.txt"
 with open(file=fname, mode="r+") as f:
+    f.seek(6, 0)
+    print(f.tell())
     for i in range(5):
         f.write("X")
+        print(f.tell())
     f.seek(0, 0)
     print(f.read())
-
 
 # %%
 """
@@ -85,7 +90,7 @@ Eine Lösung wäre es, Zahlen in einen str konvertieren. Passen Sie die Zelle de
 fname = "test.txt"
 inhalt = 1001
 with open(file=fname, mode="w") as f:
-    f.write(inhalt)
+    f.write(str(inhalt))
 
 
 # %%
@@ -101,7 +106,8 @@ Testen Sie json mit anderen Datentypen, z.b. float oder dict
 import json
 
 original = ["String", 1, 1.2345, {"key": "value"}]
-encoded = json.dumps(original)
+#encoded = json.dumps(original)
+encoded = str(original)
 decoded = json.loads(encoded)
 print("Rekonstruktion", decoded, ":", original, "erfolgreich?", decoded == original)
 
@@ -165,7 +171,7 @@ import numpy as np
 
 arr = np.array([[0, 1, 2], [4, 5, 6]])
 np.save("test.npy", arr)
-
+#%%
 with open("test.npy", "r+b") as f:
     f.seek(128, 0)
     f.write(b"\x0f")

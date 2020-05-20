@@ -5,18 +5,21 @@
 
 Visualisierung eindimensionaler Arrays
 
-Eindimensionale Arrays sind eine der häufigsten Datentypen, und kommen z.B. als Zeitserien vor. Eine typische Zeitserie ist der Spannungsverlauf einer EEG-Elektrode im Verlauf einer Messung, oder der tägliche Aktienkurse.
+Eindimensionale Arrays sind eine der häufigsten Datentypen, und kommen z.B. als Zeitserien vor. 
+Eine typische Zeitserie ist der Spannungsverlauf einer EEG-Elektrode im Verlauf einer Messung, oder der tägliche Aktienkurse.
 
-Geplottet wird in python meist mit matplotlib. Matplotlib hat sowohl ein funktionales als auch ein objektorientiertes Interface. In der folgenden Zell verwenden wir den objektorienten Ansatz.
+Geplottet wird in python meist mit matplotlib.
+Matplotlib hat sowohl ein funktionales als auch ein objektorientiertes Interface. In der folgenden Zell verwenden wir den objektorienten Ansatz.
 
-Zuerst erstellen wir eine Figure (fig) und darin eine Axes (ax). In diese axes kann dann geplottet werden. Übergibt man kein zweites Argument, erzeugt matplotlib die x-achse einfach aus der Länge der y-werte. Übergibt man zudem x-werte, wird die Beschriftung automatisch angepasst. Zudem kann man dadurch auch unregelmäßige Verläufe kongruent plotten.
+Zuerst erstellen wir eine Figure (fig) und darin eine Axes (ax). 
+In diese axes kann dann geplottet werden. 
+Übergibt man kein zweites Argument, erzeugt matplotlib die x-achse einfach aus der Länge der y-werte. Übergibt man zudem x-werte, wird die Beschriftung automatisch angepasst. Zudem kann man dadurch auch unregelmäßige Verläufe kongruent plotten.
 
 Erkunden Sie andere Funktionen für die Beziehung zwischen x auf y und z
 
 """
 import matplotlib.pyplot as plt
 import numpy as np
-
 x = np.arange(-10, 10, 0.001)
 y = x ** 2
 z = x * 10
@@ -37,6 +40,7 @@ x2 = np.arange(-10, 4.5, 0.001)
 y2 = x2 ** 2
 ax.plot(x1, y1)
 ax.plot(x2, y2)
+ax.plot(x, z)
 
 
 # %%
@@ -57,8 +61,14 @@ import numpy as np
 
 x = np.arange(-10, 10, 0.001)
 
+idx = 1
+"{0}".format(idx)
+f"{idx}"
+
+
 fig, axes = plt.subplots(4, 2)
 for idx, ax in enumerate(axes.flatten()):
+    print(idx)
     ax.plot(x, x ** idx)
     ax.set_title("Funktion")
 # %%
@@ -68,7 +78,11 @@ for idx, ax in enumerate(axes.flatten()):
 
 Visualisierung von 2-dimensionalen Arrays und Annotation
 
-Man kann mittels der plot-Funktion auch mehrdimensionale Arrays plotten. Dabei geht matplotlib von selbst durch alle Reihen. Oft sind jedoch Reihen und Spalten entgegen der Orientierung, in der wir plotten wollen. Eine Matrix können wir transponieren, indem wir die .T Methode ausführen.
+Man kann mittels der plot-Funktion auch mehrdimensionale Arrays plotten.
+Dabei geht matplotlib von selbst durch alle Reihen. 
+Oft sind jedoch Reihen und Spalten entgegen der Orientierung, 
+in der wir plotten wollen. 
+Eine Matrix können wir transponieren, indem wir die .T Methode ausführen.
 
 Sind alle Verläufe eines zwei-dimensionalen Arrays aus der selben Domäne, aber man will diese dennoch separieren, kann man auch einen sogenannte Heatmap verwenden. Dabei werden die Verläufe nicht als Plots übereinander gezeichnet, sondern als Farbverläufe. Dies kann auch sinnvoll bei kategorialen Datensätzen sein, wenn man die verschiedenen Kombination zusammen visualisieren möchte.
 
@@ -104,7 +118,9 @@ fig.colorbar(im)
 
 Beispielhafte Visualisierung eines Elektrodenlayouts
 
-FÜr EEG-Aufzeichnungen bietet sich natürlich eine topographisch angepasste Heatmap an. Dazu benötigt man Information, wo im Raum jede Elektrode sitzt und kann dann durch Interpolation einen Oberfläche visualisieren.
+FÜr EEG-Aufzeichnungen bietet sich natürlich eine topographisch angepasste Heatmap an. 
+Dazu benötigt man Information, wo im Raum jede Elektrode sitzt und kann dann 
+durch Interpolation einen Oberfläche visualisieren.
 
 Elektrodenposition sind standardisiert, und können z.B. aus mne ausgelesen  und geplottet werden. Passen Sie doch die Auswahl der Elektroden einmal an.
 
@@ -113,7 +129,13 @@ from mne.channels import read_layout
 
 layout = read_layout("EEG1005")
 layout.plot()
+
 picks = [layout.names.index(chan) for chan in ["Fpz", "C3"]]
+
+picks = []
+for chan in ["Fpz", "C3"]:
+    pick.append(layout.names.index(chan))    
+
 layout.plot(picks=picks)
 # %%
 """
@@ -191,7 +213,7 @@ channel_labels = [
 
 channel_pos = get_channel_pos(channel_labels)
 data = np.arange(0, len(channel_labels), 1)
-plot_topomap(data, pos=channel_pos, extrapolate="head", sphere=1)
+plot_topomap(data, pos=channel_pos, extrapolate="local", sphere=1)
 
 
 # %%
@@ -202,13 +224,16 @@ plot_topomap(data, pos=channel_pos, extrapolate="head", sphere=1)
 
 Referenzierung
 
-Potentiale werden immer im Bezug zu einer Referenzelektrode gemessen. Die klassische EEG-Messung ist dabei unipolar, d.h. in Bezug aller Elektroden auf eine. Diese Referenz kann man später digital wechseln, z.B. wie hier im Beispiel auf Oz.
+Potentiale werden immer im Bezug zu einer Referenzelektrode gemessen. 
+Die klassische EEG-Messung ist dabei unipolar, d.h. in Bezug aller Elektroden auf eine. 
+Diese Referenz kann man später digital wechseln, z.B. wie hier im Beispiel auf Oz.
 
 Visualisieren Sie auch das Ergebnis der Rferenzierung mit andere Elektroden. Wie verändert sich die Topographie?
 
 Ein anderes klassisches Verfahren ist die CAR oder Common Average Referenzierung. Dabei wird das Mittel aller Elektroden von allen Elektroden abgezogen. Die Summe aller Potentiale ist daher 0, was nach der Kirchhoffschen Maschenregel erstmal sinnvoll erscheint. Beachten Sie aber, dass wir hier Messen und die Elektroden bestenfalls näherungsweise den Knoten eines Netzwerks entsprechen. 
 
-Überlegen Sie, was passieren würde, wenn eine Elektrode defekt wäre. Welchen Einfluss hätte das auf die CAR? Versuchen Sie, das zu simulieren.
+Überlegen Sie, was passieren würde, wenn eine Elektrode defekt wäre. 
+Welchen Einfluss hätte das auf die CAR? Versuchen Sie, das zu simulieren.
 
 
 """
@@ -217,13 +242,14 @@ from mne.viz import plot_topomap
 
 
 data = np.arange(0, len(channel_labels), 1)
+data[10] = 50
 
 # rereferenzierung gegen z.B. Oz
 fig, ax = plt.subplots()
-reref = "Oz"
-ax.set_title(reref)
-ref = data[channel_labels.index(reref)]
-data = data - ref
+#reref = "Oz"
+#ax.set_title(reref)
+#ref = data[channel_labels.index(reref)]
+#data = data - ref
 plot_topomap(data, pos=channel_pos, extrapolate="head", sphere=1, axes=ax)
 
 # common average referenzierung
@@ -291,8 +317,12 @@ channel_pos = get_channel_pos(channel_labels)
 
 # wir plotten nur Kanal C3, und zwar nur die ersten 10000 Samples
 pick = raw.ch_names.index("C3")
-plt.plot(data[pick, 0:10000])
+plt.plot(data[pick, 600:660])
 
 # Anschließend plotten wir die Topographie der Potentiale bei Sample 1000
 fig, ax = plt.subplots()
-plot_topomap(data[0:, 1000], pos=channel_pos, extrapolate="head", sphere=1, axes=ax)
+plot_topomap(data[0:, 640], pos=channel_pos, extrapolate="head", sphere=1, axes=ax)
+# %%
+fig, ax = plt.subplots()
+im = ax.imshow(data[:, :10000])
+fig.colorbar(im)
